@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a"><link rel="manifest" href="manifest.json">
+<title>BE STRONGER</title>
+<style>
+:root{--bg:#080808;--card:#141414;--gold:#d6aa42;--gold2:#f1d477;--txt:#f7f7f7;--muted:#999;--line:#292929}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#2a210c 0,#080808 34%);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{padding:24px 18px 14px;position:sticky;top:0;background:#080808ee;backdrop-filter:blur(14px);z-index:5}.brand{font-size:24px;font-weight:950;letter-spacing:3px}.brand i{color:var(--gold);font-style:normal}
+main{max-width:760px;margin:auto;padding:8px 16px 95px}.screen{display:none}.screen.active{display:block}.hero{padding:18px 0}.hero h1{font-size:32px;line-height:1.05;margin:0 0 8px}.hero p{color:var(--muted);margin:0}
+.card{background:linear-gradient(145deg,#181818,#101010);border:1px solid var(--line);border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 10px 35px #0007}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric{padding:15px;border-radius:15px;background:#0c0c0c;border:1px solid #252525}.metric small{color:var(--muted)}.metric strong{display:block;font-size:24px;margin-top:4px;color:var(--gold2)}
+h2{font-size:19px;margin:0 0 14px}h3{font-size:16px;margin:8px 0}label{font-size:12px;color:var(--muted);display:block;margin:10px 0 5px}input,select{width:100%;padding:12px;border-radius:11px;border:1px solid #333;background:#0a0a0a;color:#fff;font-size:15px}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+button{border:0;border-radius:12px;padding:13px;width:100%;font-weight:900;background:linear-gradient(90deg,#b98521,#e6c65f);color:#111;margin-top:12px}button.secondary{background:#202020;color:#eee;border:1px solid #333}.pill{display:inline-block;padding:6px 9px;border:1px solid #59491f;color:var(--gold2);border-radius:99px;font-size:12px;margin:3px}
+.exercise{padding:13px 0;border-bottom:1px solid #292929;display:flex;justify-content:space-between;gap:10px}.exercise:last-child{border-bottom:0}.exercise span{color:var(--muted);font-size:13px;text-align:right}
+.progress{height:9px;background:#282828;border-radius:99px;overflow:hidden}.progress b{display:block;height:100%;background:linear-gradient(90deg,#9c711c,#ebcc63);width:58%}
+nav{position:fixed;bottom:0;overflow-x:auto;left:0;right:0;background:#0c0c0cf2;border-top:1px solid #292929;display:flex;justify-content:center;z-index:10}nav div{min-width:84px;width:84px;max-width:140px;text-align:center;padding:11px 3px;color:#888;font-size:11px;cursor:pointer}nav div.active{color:var(--gold2)}nav b{display:block;font-size:19px;margin-bottom:2px}
+.note{color:#888;font-size:12px;line-height:1.5}
+@media(min-width:700px){nav{position:fixed;left:50%;overflow:hidden;right:auto;transform:translateX(-50%);width:700px;border-radius:18px 18px 0 0}.grid{grid-template-columns:repeat(4,1fr)}}
+.onstep .pill{cursor:pointer;display:block;margin:8px 0;padding:12px;text-align:center}.onstep button{margin-top:18px}.screen.active{animation:fade .18s ease}@keyframes fade{from{opacity:.2;transform:translateY(5px)}to{opacity:1;transform:none}}.cloud-badge{border:1px solid #59491f;color:var(--gold2);padding:5px 9px;border-radius:99px;font-size:11px}</style></head>
+<body>
+<header><div class="brand">BE <i>STRONGER</i></div></header>
+<main>
+
+
+<section id="splash" class="screen active" style="min-height:75vh;text-align:center;padding-top:18vh">
+<div style="font-size:44px;font-weight:950;letter-spacing:5px">BE <span style="color:var(--gold2)">STRONGER</span></div>
+<p class="note" style="font-size:14px;margin-top:12px">PERSONAL COACHING INTELLIGENCE</p>
+<div class="card" style="margin-top:45px;text-align:left">
+<h2>Ton coaching. Ton évolution.</h2>
+<p class="note">Un programme construit autour de ton objectif, ton niveau, tes disponibilités et ta progression.</p>
+<button onclick="showAuth('login')">SE CONNECTER</button>
+<button class="secondary" onclick="showAuth('signup')">CRÉER MON COMPTE</button>
+</div>
+</section>
+
+<section id="auth" class="screen">
+<div class="hero"><h1 id="authTitle">Créer ton compte</h1><p id="authSub">Quelques secondes pour commencer.</p></div>
+<div class="card">
+<label>Prénom</label><input id="authName" placeholder="Ton prénom">
+<label>Email</label><input id="authEmail" type="email" placeholder="ton@email.com">
+<label>Mot de passe</label><input id="authPass" type="password" placeholder="••••••••">
+<button onclick="submitAuth()">CONTINUER</button>
+<button class="secondary" onclick="show('splash')">RETOUR</button>
+<p class="note" style="margin-top:12px">Prototype : aucune donnée sensible n'est envoyée à un serveur dans cette version.</p>
+</div>
+</section>
+<section id="onboarding" class="screen">
+<div class="hero"><h1>Bienvenue sur<br><span style="color:var(--gold2)">BE STRONGER.</span></h1><p>Quelques questions pour construire ton profil de coaching.</p></div>
+<div class="card">
+<div id="step1" class="onstep">
+<h2>1 · Ton objectif principal</h2>
+<div class="pill" onclick="pick('og','cut',this)">🔥 Perdre de la graisse</div>
+<div class="pill" onclick="pick('og','recomp',this)">⚡ Recomposition</div>
+<div class="pill" onclick="pick('og','bulk',this)">💪 Prendre du muscle</div>
+<div class="pill" onclick="pick('og','perf',this)">🏆 Performance</div>
+<button onclick="nextStep(2)">CONTINUER</button>
+</div>
+<div id="step2" class="onstep" style="display:none">
+<h2>2 · Ton niveau</h2>
+<div class="pill" onclick="pick('lv','Débutant',this)">Débutant</div>
+<div class="pill" onclick="pick('lv','Intermédiaire',this)">Intermédiaire</div>
+<div class="pill" onclick="pick('lv','Avancé',this)">Avancé</div>
+<button onclick="nextStep(3)">CONTINUER</button>
+</div>
+<div id="step3" class="onstep" style="display:none">
+<h2>3 · Tes disponibilités</h2>
+<div class="row"><div><label>Séances / semaine</label><input id="obDays" type="number" value="4" min="1" max="6"></div><div><label>Durée par séance</label><input id="obDuration" type="number" value="60" min="30" max="180"></div></div>
+<button onclick="nextStep(4)">CONTINUER</button>
+</div>
+<div id="step4" class="onstep" style="display:none">
+<h2>4 · Tes données</h2>
+<div class="row"><div><label>Âge</label><input id="obAge" type="number" value="35"></div><div><label>Sexe</label><select id="obSex"><option value="m">Homme</option><option value="f">Femme</option></select></div></div>
+<div class="row"><div><label>Taille (cm)</label><input id="obHeight" type="number" value="180"></div><div><label>Poids (kg)</label><input id="obWeight" type="number" value="80"></div></div>
+<div class="row"><div><label>Tour de taille</label><input id="obWaist" type="number" placeholder="optionnel"></div><div><label>Tour de bras</label><input id="obArm" type="number" placeholder="optionnel"></div></div>
+<button onclick="nextStep(5)">CONTINUER</button>
+</div>
+<div id="step5" class="onstep" style="display:none">
+<h2>5 · Ton entraînement</h2>
+<label>Matériel disponible</label><select id="obEquipment"><option value="gym">Salle complète</option><option value="home">Maison</option><option value="minimal">Matériel limité</option></select>
+<label>Zone à privilégier</label><select id="obFocus"><option>Plein corps</option><option>Pectoraux</option><option>Dos</option><option>Jambes</option><option>Épaules / bras</option><option>Performance générale</option></select>
+<label>Contraintes ou mouvements à éviter</label><input id="obLimits" placeholder="ex. douleur, mouvement interdit...">
+<button onclick="nextStep(6)">CONTINUER</button>
+</div>
+<div id="step6" class="onstep" style="display:none">
+<h2>6 · Ta nutrition</h2>
+<div class="row"><div><label>Nombre de repas / jour</label><input id="obMeals" type="number" value="3" min="2" max="6"></div>
+<div><label>Budget alimentaire</label><select id="obBudget"><option>Économique</option><option selected>Standard</option><option>Confort</option></select></div></div>
+<label>Style alimentaire</label><select id="obFood"><option>Omnivore</option><option>Végétarien</option><option>Flexitarien</option></select>
+<label>Aliments préférés</label><input id="obLikes" placeholder="ex. poulet, riz, œufs, poisson...">
+<label>Aliments à éviter / intolérances</label><input id="obAvoid" placeholder="ex. lactose, arachides...">
+<button onclick="nextStep(7)">CRÉER MON PROFIL</button>
+</div>
+<div id="step7" class="onstep" style="display:none;text-align:center">
+<h2>Ton profil est prêt 🔥</h2><p id="profileSummary" class="note"></p><button onclick="applyOnboarding()">VOIR MON TABLEAU DE BORD</button>
+</div>
+</div>
+</section>
+<section id="home" class="screen active">
+<div class="hero"><h1 id="welcome">Ton plan.<br>Ta progression.</h1><p>Un coaching personnalisé basé sur tes données.</p></div>
+<div class="card"><h2>Tableau de bord</h2><div class="grid">
+<div class="metric"><small>Poids</small><strong id="dashWeight">80 kg</strong></div><div class="metric"><small>IMC</small><strong id="dashBmi">24.7</strong></div><div class="metric"><small>Calories</small><strong id="dashCal">—</strong></div><div class="metric"><small>Protéines</small><strong id="dashProt">—</strong></div></div></div>
+<div class="card"><h2>Objectif actuel</h2><div id="goalText">Recomposition corporelle</div><div class="progress" style="margin-top:14px"><b></b></div><p class="note">La progression sera recalculée à partir de tes nouvelles mesures.</p></div>
+<div class="card"><h2>Prochaine séance</h2><div class="exercise"><b>Haut du corps</b><span>≈ 60 min</span></div><button onclick="show('workout')">COMMENCER</button></div>
+</section>
+
+<section id="workout" class="screen"><div class="hero"><h1>Mon entraînement</h1><p>Programme généré selon ton profil.</p></div><div id="workoutContent"></div></section>
+
+<section id="nutrition" class="screen"><div class="hero"><h1>Nutrition</h1><p>Des repères simples et adaptables.</p></div><div class="card"><div class="grid"><div class="metric"><small>Calories</small><strong id="nCal">—</strong></div><div class="metric"><small>Protéines</small><strong id="nProt">—</strong></div><div class="metric"><small>Lipides</small><strong id="nFat">—</strong></div><div class="metric"><small>Glucides</small><strong id="nCarb">—</strong></div></div></div><div class="card"><h2>Ton profil nutritionnel</h2><div id="foodProfile" class="note">Complète l'onboarding pour personnaliser tes recommandations.</div></div><div class="card"><h2>Structure recommandée</h2><p>🥩 Une source de protéines à chaque repas.</p><p>🍚 Glucides modulés selon l'activité.</p><p>🥦 Fruits et légumes quotidiennement.</p><p>💧 Hydratation régulière.</p><p>😴 Priorité à la récupération et au sommeil.</p><p class="note">Ces indications sont des repères généraux et ne remplacent pas un avis médical ou diététique.</p></div></section>
+
+<section id="profile" class="screen"><div class="hero"><h1>Mon profil</h1><p>Plus tes données sont précises, plus le plan peut être personnalisé.</p></div>
+<div class="card"><div class="row"><div><label>Âge</label><input id="age" type="number" value="35"></div><div><label>Sexe</label><select id="sex"><option value="m">Homme</option><option value="f">Femme</option></select></div></div>
+<div class="row"><div><label>Taille (cm)</label><input id="height" type="number" value="180"></div><div><label>Poids (kg)</label><input id="weight" type="number" value="80"></div></div>
+<div class="row"><div><label>Tour de taille (cm)</label><input id="waist" type="number" placeholder="90"></div><div><label>Tour de bras (cm)</label><input id="arm" type="number" placeholder="38"></div></div>
+<label>Objectif</label><select id="goal"><option value="recomp">Recomposition</option><option value="cut">Perte de graisse</option><option value="bulk">Prise de masse</option><option value="perf">Performance</option></select>
+<div class="row"><div><label>Séances / semaine</label><input id="days" type="number" value="4"></div><div><label>Durée (min)</label><input id="duration" type="number" value="60"></div></div>
+<label>Niveau</label><select id="level"><option>Débutant</option><option selected>Intermédiaire</option><option>Avancé</option></select>
+<label>Matériel</label><select id="equipment"><option value="gym">Salle complète</option><option value="home">Maison</option><option value="minimal">Matériel limité</option></select>
+<button onclick="generate()">CRÉER / METTRE À JOUR MON PLAN</button></div>
+<div class="card"><h2>Compte</h2><button class="secondary" onclick="logout()">SE DÉCONNECTER</button></div><div class="card"><h2>Mes mensurations</h2><p class="note">Le suivi du tour de taille et des performances permet de mieux interpréter l'évolution que le poids seul.</p></div>
+</section>
+
+<section id="progress" class="screen">
+<div class="hero"><h1>Ma progression</h1><p>L’application ajuste tes recommandations à partir de tes données.</p></div>
+<div class="card">
+<h2>Check-in hebdomadaire</h2>
+<div class="row">
+<div><label>Poids cette semaine (kg)</label><input id="cw" type="number" step="0.1"></div>
+<div><label>Tour de taille (cm)</label><input id="ct" type="number" step="0.1"></div>
+</div>
+<div class="row">
+<div><label>Énergie /10</label><input id="ce" type="number" min="1" max="10" value="7"></div>
+<div><label>Récupération /10</label><input id="cr" type="number" min="1" max="10" value="7"></div>
+</div>
+<label>Performance générale</label>
+<select id="cp"><option value="up">Je progresse</option><option value="same">Stable</option><option value="down">En baisse</option></select>
+<button onclick="checkin()">ANALYSER MA SEMAINE</button>
+<div id="coachResult" style="margin-top:15px"></div>
+</div>
+<div class="card"><h2>Historique</h2><div id="history">Aucune donnée enregistrée.</div></div>
+</section>
+
+<section id="coach" class="screen">
+<div class="hero"><h1>Espace Coach</h1><p>Vue synthétique de tes clients.</p></div>
+<div class="card"><h2>Clients</h2>
+<div class="exercise"><b>Client démo — Recomposition</b><span>En progression</span></div>
+<div class="exercise"><b>Client démo — Performance</b><span>À surveiller</span></div>
+<button class="secondary" onclick="alert('La gestion complète des clients sera connectée à une base de données dans la prochaine étape.')">AJOUTER UN CLIENT</button>
+</div>
+<div class="card"><h2>Bibliothèque d'exercices</h2>
+<div class="card"><h2>Règles de substitution</h2>
+<p class="note">Le moteur privilégie le même schéma de mouvement et une difficulté comparable : poussée horizontale → poussée horizontale, tirage → tirage, dominante genou → dominante genou, etc. Les substitutions doivent respecter les capacités et contraintes de la personne.</p>
+</div>
+<p class="note">Le moteur V4 sélectionne les mouvements selon le matériel et la structure hebdomadaire. La prochaine version pourra intégrer vidéos, consignes techniques et substitutions.</p>
+<div><span class="pill">Poussée</span><span class="pill">Tirage</span><span class="pill">Jambes</span><span class="pill">Full body</span><span class="pill">Conditionnement</span></div>
+</div>
+<div class="card"><h2>Logique d’adaptation</h2>
+<p class="note">Si les performances progressent et que la récupération est bonne : progression graduelle. Si fatigue/récupération baisse : réduction temporaire du volume. Si l’objectif de perte de graisse stagne plusieurs semaines : réévaluation des apports et de l’activité.</p>
+</div>
+</section>
+
+<div id="exerciseModal" style="display:none;position:fixed;inset:0;background:#000b;z-index:30;padding:18px;overflow:auto">
+ <div class="card" style="max-width:620px;margin:50px auto">
+  <button class="secondary" onclick="closeExercise()">FERMER</button>
+  <h2 id="exTitle" style="margin-top:18px"></h2>
+  <p id="exCue" class="note"></p>
+  <div id="exSteps"></div>
+  <h3 style="margin-top:18px">Remplacements</h3>
+  <div id="exSubs"></div>
+ </div>
+</div>
+
+<section id="cloud" class="screen">
+<div class="hero"><h1>BE STRONGER <span style="color:var(--gold2)">CLOUD</span></h1><p>Synchronisation et comptes — préparation production.</p></div>
+<div class="card">
+<h2>État du compte</h2>
+<div class="metric"><small>Mode actuel</small><strong id="cloudMode" style="font-size:18px">Prototype local</strong></div>
+<p class="note" style="margin-top:12px">Cette V10 prépare la séparation entre l'interface et un futur serveur. Les données sensibles ne doivent pas être stockées uniquement dans le navigateur pour une version commerciale.</p>
+</div>
+<div class="card">
+<h2>Rôles</h2>
+<div class="exercise"><b>🏋️ Athlète</b><span>Profil · programme · nutrition · check-in</span></div>
+<div class="exercise"><b>👨‍🏫 Coach</b><span>Clients · programmes · suivi · statistiques</span></div>
+</div>
+<div class="card">
+<h2>Connexion serveur</h2>
+<label>URL de l'API</label><input id="apiUrl" placeholder="https://api.be-stronger...">
+<button onclick="saveApi()">ENREGISTRER</button>
+<p class="note">Aucune donnée n’est envoyée tant qu’une API réelle n’est pas configurée.</p>
+</div>
+</section>
+</main>
+<nav><div class="active" onclick="show('home')"><b>⌂</b>Accueil</div><div onclick="show('workout')"><b>🏋️</b>Training</div><div onclick="show('nutrition')"><b>🍽</b>Nutrition</div><div onclick="show('progress')"><b>📈</b>Suivi</div><div onclick="show('profile')"><b>◉</b>Profil</div><div onclick="show('coach')"><b>👤</b>Coach</div><div onclick="show('cloud')"><b>☁️</b>Cloud</div></nav>
+<script>
+const $=x=>document.getElementById(x);
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('nav div').forEach(x=>x.classList.remove('active'));document.querySelectorAll('nav div').forEach(x=>{if(x.getAttribute('onclick')===`show('${id}')`)x.classList.add('active')});window.scrollTo(0,0)}
+function generate(){
+let age=+$('age').value||35,h=+$('height').value||180,w=+$('weight').value||80,sex=$('sex').value;
+let days=Math.max(1,Math.min(6,+$('days').value||4)),duration=Math.max(30,+$('duration').value||60);
+let goal=$('goal').value,level=$('level').value,equipment=$('equipment').value;
+let bmi=w/(h/100)**2;
+let bmr=10*w+6.25*h-5*age+(sex==='m'?5:-161);
+let activity=days<=2?1.35:days<=4?1.5:1.6;
+let tdee=bmr*activity;
+let cal=goal==='cut'?tdee*.85:goal==='bulk'?tdee*1.1:goal==='recomp'?tdee*.92:tdee;
+let prot=Math.round(w*(goal==='perf'?1.8:2.0)),fat=Math.round(w*.8),carb=Math.max(0,Math.round((cal-prot*4-fat*9)/4));
+let scheme=goal==='perf'?{sets:4,reps:'3–6',rest:'2–3 min'}:goal==='bulk'?{sets:4,reps:'6–12',rest:'90–150 s'}:goal==='cut'?{sets:3,reps:'8–15',rest:'60–90 s'}:{sets:3,reps:'6–12',rest:'90–120 s'};
+
+const gym={
+push:[['Développé couché','barre/haltères'],['Développé incliné','haltères'],['Écartés poulie','contrôle'],['Élévations latérales','12–20 reps'],['Extension triceps','10–15 reps']],
+pull:[['Tractions / tirage vertical','6–12 reps'],['Rowing horizontal','8–12 reps'],['Tirage unilatéral','10–12 reps'],['Oiseau / reverse fly','12–20 reps'],['Curl biceps','10–15 reps']],
+legs:[['Squat / presse','6–10 reps'],['Soulevé de terre roumain','8–12 reps'],['Fentes / split squat','8–12 / jambe'],['Leg curl','10–15 reps'],['Mollets','12–20 reps']],
+full:[['Squat / presse','8–12 reps'],['Développé couché','6–12 reps'],['Rowing','8–12 reps'],['Soulevé de terre roumain','8–12 reps'],['Élévations latérales','12–20 reps'],['Gainage','30–60 s']]
+};
+const home={
+full:[['Squat poids du corps','12–20 reps'],['Pompes','8–20 reps'],['Rowing élastique','10–20 reps'],['Fentes','10 / jambe'],['Élévations élastique','12–20 reps'],['Gainage','30–60 s']],
+push:[['Pompes','8–20 reps'],['Pompes inclinées/déclinées','8–15 reps'],['Élévations latérales élastique','12–20 reps'],['Extension triceps','12–20 reps']],
+pull:[['Rowing élastique','10–20 reps'],['Tirage élastique','10–20 reps'],['Oiseau élastique','12–20 reps'],['Curl élastique','12–20 reps']],
+legs:[['Squat','12–20 reps'],['Fentes','10 / jambe'],['Hip hinge','12–20 reps'],['Mollets','15–25 reps'],['Gainage','30–60 s']]
+};
+const lib=equipment==='gym'?gym:home;
+let daysPlan=[];
+if(days===1) daysPlan=[['Full body','full']];
+else if(days===2) daysPlan=[['Full body A','full'],['Full body B','full']];
+else if(days===3) daysPlan=[['Full body','full'],['Haut du corps','push'],['Bas du corps','legs']];
+else if(days===4) daysPlan=[['Haut — poussée','push'],['Bas — jambes','legs'],['Haut — tirage','pull'],['Bas + conditionnement','legs']];
+else if(days>=5) daysPlan=[['Pectoraux / épaules / triceps','push'],['Dos / biceps','pull'],['Jambes','legs'],['Haut du corps','full'],['Conditionnement + points faibles','full']];
+
+const exerciseDB={
+'Développé couché':{cue:'Omoplates stables, pieds ancrés, descente contrôlée et poussée sans perdre la trajectoire.',steps:['Installer les épaules en arrière','Descendre avec contrôle','Pousser en gardant les poignets neutres'],subs:['Pompes','Développé haltères']},
+'Développé incliné':{cue:'Banc légèrement incliné, poitrine haute, coudes sous les poignets.',steps:['Stabiliser les omoplates','Descendre vers le haut des pectoraux','Remonter sans verrouillage brutal'],subs:['Pompes pieds surélevés','Développé haltères']},
+'Tractions / tirage vertical':{cue:'Commencer par engager les omoplates puis tirer les coudes vers le bas.',steps:['Gainage du tronc','Dépression des épaules','Tirer sans balancer'],subs:['Tirage vertical','Rowing élastique']},
+'Rowing horizontal':{cue:'Dos neutre, buste stable, tirer les coudes vers l’arrière.',steps:['Fixer le tronc','Tirer vers le bas des côtes','Contrôler la descente'],subs:['Rowing unilatéral','Rowing élastique']},
+'Squat / presse':{cue:'Genoux dans l’axe des pieds, amplitude adaptée et tronc gainé.',steps:['Respirer et gainer','Descendre sous contrôle','Pousser à travers le pied entier'],subs:['Goblet squat','Fentes']},
+'Soulevé de terre roumain':{cue:'Mouvement de charnière de hanche : dos neutre et barre proche du corps.',steps:['Recule les hanches','Garde les genoux légèrement fléchis','Remonte en contractant les fessiers'],subs:['Hip hinge','Leg curl']},
+'Fentes / split squat':{cue:'Pas stable, genou avant aligné avec le pied, descente contrôlée.',steps:['Stabiliser le bassin','Descendre verticalement','Pousser avec le pied avant'],subs:['Fentes arrière','Squat']},
+'Élévations latérales':{cue:'Charge légère, bras légèrement fléchis et mouvement contrôlé.',steps:['Épaules basses','Monter jusqu’à environ l’horizontale','Redescendre lentement'],subs:['Élévations élastique','Oiseau']},
+'Curl biceps':{cue:'Coudes fixes, pas d’élan du buste, contrôle sur toute l’amplitude.',steps:['Stabiliser les coudes','Fléchir le coude','Contrôler la descente'],subs:['Curl élastique','Curl marteau']},
+'Gainage':{cue:'Maintenir une ligne tête-bassin sans retenir la respiration.',steps:['Contracter abdos et fessiers','Respirer normalement','Arrêter avant perte de position'],subs:['Dead bug','Planche latérale']}
+};
+function makeExercises(type,index){
+ let arr=[...(lib[type]||lib.full)];
+ if(index===1 && type==='full') arr.reverse();
+ if(index>=4) arr=arr.slice(0,Math.min(arr.length,6));
+ return arr.map((x,i)=>{
+   let key=x[0], detail=exerciseDB[key]||{cue:'Mouvement contrôlé, amplitude adaptée et technique prioritaire.',steps:['Échauffement spécifique','Exécution contrôlée','Arrêter si la technique se dégrade'],subs:['Choisir une variante plus simple','Choisir une variante au poids du corps']};
+   let reps=x[1].match(/reps|s|\/|—/) ? x[1] : scheme.reps;
+   return `<div class="exercise" onclick='openExercise(${JSON.stringify(key)})' style="cursor:pointer"><b>${key}<br><span style="font-weight:400;color:#777;font-size:11px">Voir technique →</span></b><span>${scheme.sets}×${reps}<br>${scheme.rest}</span></div>`;
+ }).join('');
+}
+$('workoutContent').innerHTML=daysPlan.map((d,i)=>{
+ let type=d[1], extra=(duration<45?'Format court : priorité aux mouvements principaux.':duration>=75?'Volume complet + accessoires.':'Volume équilibré.');
+ return `<div class="card"><h2>${d[0]}</h2><span class="pill">${duration} min</span><span class="pill">${level}</span><span class="pill">${goal==='perf'?'Performance':goal==='bulk'?'Hypertrophie':goal==='cut'?'Déficit / maintien muscle':'Recomposition'}</span>${makeExercises(type,i)}<p class="note">${extra} Échauffement 5–10 min puis 1–3 séries de montée en charge sur le premier mouvement.</p></div>`;
+}).join('');
+
+$('dashWeight').textContent=w.toFixed(1)+' kg';
+$('dashBmi').textContent=bmi.toFixed(1);
+$('dashCal').textContent=Math.round(cal/50)*50;
+$('dashProt').textContent=prot+' g';
+$('goalText').textContent={recomp:'Recomposition corporelle',cut:'Perte de graisse',bulk:'Prise de masse',perf:'Performance'}[goal];
+$('nCal').textContent=Math.round(cal/50)*50;
+$('nProt').textContent=prot+' g';$('nFat').textContent=fat+' g';$('nCarb').textContent=carb+' g';
+
+localStorage.setItem('bs_profile',JSON.stringify({age,h,w,sex,days,duration,goal,level,equipment,cal,prot,fat,carb,bmi}));
+show('home');
+}
+function openExercise(name){
+ const d=exerciseDB[name]||{cue:'Technique contrôlée et amplitude adaptée.',steps:['Échauffement spécifique','Contrôle du mouvement','Progression graduelle'],subs:['Variante plus simple','Variante au poids du corps']};
+ $('exerciseModal').style.display='block';$('exTitle').textContent=name;$('exCue').textContent=d.cue;
+ $('exSteps').innerHTML='<ol>'+d.steps.map(s=>`<li style="margin:8px 0">${s}</li>`).join('')+'</ol>';
+ $('exSubs').innerHTML=d.subs.map(s=>`<span class="pill" onclick="alert('Substitution sélectionnée : ${s.replace(/'/g,"\\'")}')" style="cursor:pointer">${s}</span>`).join('');
+}
+function closeExercise(){$('exerciseModal').style.display='none'}
+
+
+let authMode='signup';
+function showAuth(mode){
+ authMode=mode;
+ $('authTitle').textContent=mode==='login'?'Bienvenue sur BE STRONGER':'Créer ton compte';
+ $('authSub').textContent=mode==='login'?'Retrouve ton coaching.':'Quelques secondes pour commencer.';
+ $('authName').style.display=mode==='login'?'none':'block';
+ show('auth');
+}
+function submitAuth(){
+ const name=$('authName').value.trim()||'Athlète';
+ const email=$('authEmail').value.trim();
+ if(!email || !$('authPass').value){alert('Renseigne ton email et ton mot de passe.');return}
+ localStorage.setItem('bs_user',JSON.stringify({name,email}));
+ const ob=localStorage.getItem('bs_onboard');
+ if(ob){try{onboard=JSON.parse(ob);applyOnboarding()}catch(e){show('home')}}else nextStep(1),show('onboarding');
+}
+let onboard={};
+function pick(k,v,el){onboard[k]=v;el.parentElement.querySelectorAll('.pill').forEach(x=>x.style.outline='');el.style.outline='2px solid var(--gold)';}
+function nextStep(n){document.querySelectorAll('.onstep').forEach(x=>x.style.display='none');$('step'+n).style.display='block';}
+function finishOnboarding(){
+ onboard.days=+$('obDays').value||4;onboard.duration=+$('obDuration').value||60;
+ onboard.age=+$('obAge').value||35;onboard.sex=$('obSex').value;onboard.height=+$('obHeight').value||180;onboard.weight=+$('obWeight').value||80;
+ onboard.waist=$('obWaist').value;onboard.arm=$('obArm').value;onboard.equipment=$('obEquipment').value;onboard.focus=$('obFocus').value;onboard.limits=$('obLimits').value;onboard.meals=+$('obMeals').value||3;onboard.budget=$('obBudget').value;onboard.food=$('obFood').value;onboard.likes=$('obLikes').value;onboard.avoid=$('obAvoid').value;
+ onboard.og=onboard.og||'recomp';onboard.lv=onboard.lv||'Intermédiaire';
+ let bmi=onboard.weight/(onboard.height/100)**2;
+ $('profileSummary').innerHTML=`<span class="pill">${onboard.weight} kg</span><span class="pill">IMC ${bmi.toFixed(1)}</span><span class="pill">${onboard.days} séances</span><span class="pill">${onboard.focus}</span><br><br>Objectif : <b>${{cut:'Perte de graisse',recomp:'Recomposition',bulk:'Prise de muscle',perf:'Performance'}[onboard.og]}</b>.<br>Le moteur va utiliser ces informations pour construire ton programme.`;
+ localStorage.setItem('bs_onboard',JSON.stringify(onboard));nextStep(7);
+}
+function applyOnboarding(){
+ $('age').value=onboard.age;$('sex').value=onboard.sex;$('height').value=onboard.height;$('weight').value=onboard.weight;$('days').value=onboard.days;$('duration').value=onboard.duration;$('goal').value=onboard.og;$('level').value=onboard.lv;$('equipment').value=onboard.equipment;
+ generate();
+ localStorage.setItem('bs_nutrition',JSON.stringify({meals:onboard.meals,budget:onboard.budget,food:onboard.food,likes:onboard.likes,avoid:onboard.avoid}));
+}
+
+let bsUser=localStorage.getItem('bs_user');if(bsUser){try{$('welcome').innerHTML='Salut '+JSON.parse(bsUser).name+' 👋<br><span style="color:var(--gold2)">On progresse.</span>'}catch(e){}}\nlet saved=localStorage.getItem('bs_profile');let obSaved=localStorage.getItem('bs_onboard');let bsUser=localStorage.getItem('bs_user');if(saved){try{let p=JSON.parse(saved);$('age').value=p.age;$('height').value=p.h;$('weight').value=p.w;$('days').value=p.days;$('goal').value=p.goal;generate()}catch(e){}}else if(!bsUser){show('splash')}else{show('onboarding')}
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+
+function checkin(){
+ const w=parseFloat($('cw').value), t=parseFloat($('ct').value), e=parseFloat($('ce').value)||7, r=parseFloat($('cr').value)||7, p=$('cp').value;
+ let advice='';
+ if(e<=4||r<=4||p==='down') advice='<b>🟠 Semaine à alléger.</b><br>Réduis temporairement le volume d’environ 15–25 %, garde une technique propre et donne la priorité à la récupération.';
+ else if(p==='up'&&e>=7&&r>=7) advice='<b>🟢 Feu vert.</b><br>Tu peux progresser progressivement : +1 répétition sur certains exercices ou une petite hausse de charge si la technique reste parfaite.';
+ else advice='<b>🟡 Maintien.</b><br>Conserve le programme actuel et cherche surtout une meilleure qualité d’exécution avant d’augmenter la charge.';
+ if(w && t) advice += `<br><br><span class="pill">${w.toFixed(1)} kg</span><span class="pill">${t.toFixed(1)} cm taille</span>`;
+ const item={date:new Date().toLocaleDateString('fr-FR'),w,t,e,r,p,advice};
+ let hist=JSON.parse(localStorage.getItem('bs_checkins')||'[]');hist.unshift(item);hist=hist.slice(0,8);localStorage.setItem('bs_checkins',JSON.stringify(hist));
+ $('coachResult').innerHTML=advice;renderHistory();
+function renderFoodProfile(){
+ const n=JSON.parse(localStorage.getItem('bs_nutrition')||'null');
+ if(!n)return;
+ $('foodProfile').innerHTML=`<span class="pill">${n.meals} repas/j</span><span class="pill">${n.budget}</span><span class="pill">${n.food}</span><br><br><b>Préférences :</b> ${n.likes||'Non renseignées'}<br><b>À éviter :</b> ${n.avoid||'Non renseigné'}`;
+}
+renderFoodProfile();
+
+}
+function renderHistory(){
+ let hist=JSON.parse(localStorage.getItem('bs_checkins')||'[]');
+ $('history').innerHTML=hist.length?hist.map(x=>`<div class="exercise"><b>${x.date} — ${x.w?x.w+' kg':'—'}</b><span>${x.e}/10 énergie · ${x.r}/10 récup.</span></div>`).join(''):'Aucune donnée enregistrée.';
+}
+renderHistory();
+function renderFoodProfile(){
+ const n=JSON.parse(localStorage.getItem('bs_nutrition')||'null');
+ if(!n)return;
+ $('foodProfile').innerHTML=`<span class="pill">${n.meals} repas/j</span><span class="pill">${n.budget}</span><span class="pill">${n.food}</span><br><br><b>Préférences :</b> ${n.likes||'Non renseignées'}<br><b>À éviter :</b> ${n.avoid||'Non renseigné'}`;
+}
+renderFoodProfile();
+
+
+function getAthletes(){try{return JSON.parse(localStorage.getItem('bs_athletes')||'[]')}catch(e){return[]}}
+function saveAthletes(a){localStorage.setItem('bs_athletes',JSON.stringify(a))}
+function addAthlete(){
+ const name=$('athName').value.trim();if(!name){alert('Renseigne un prénom.');return}
+ const a=getAthletes();a.push({id:Date.now(),name,goal:$('athGoal').value,created:new Date().toLocaleDateString('fr-FR'),status:'À configurer'});saveAthletes(a);
+ $('athName').value='';renderAthletes();
+}
+function renderAthletes(){
+ const a=getAthletes();
+ $('athletes').innerHTML=a.length?a.map(x=>`<div class="exercise"><div><b>${x.name}</b><br><span style="color:#777;font-size:12px">${x.goal} · ${x.status}</span></div><span>${x.created}</span></div>`).join(''):'<p class="note">Aucun athlète ajouté.</p>';
+}
+renderAthletes();
+function logout(){localStorage.removeItem('bs_user');show('splash')}\n
+const BS_DATA_MODEL={
+ users:{id:'uuid',name:'string',email:'string',role:'athlete|coach'},
+ profiles:{user_id:'uuid',age:'number',sex:'string',height_cm:'number',weight_kg:'number',waist_cm:'number',goal:'string',level:'string'},
+ programs:{id:'uuid',user_id:'uuid',week:'number',sessions:'json',created_at:'datetime'},
+ nutrition:{user_id:'uuid',calories:'number',protein_g:'number',carbs_g:'number',fat_g:'number',preferences:'json'},
+ checkins:{id:'uuid',user_id:'uuid',weight_kg:'number',waist_cm:'number',energy:'number',recovery:'number',performance:'string',created_at:'datetime'}
+};
+
+function saveApi(){
+ const u=$('apiUrl').value.trim();
+ if(u && !/^https:\/\//.test(u)){alert('Pour une version production, utilise une URL HTTPS.');return}
+ localStorage.setItem('bs_api_url',u);
+ $('cloudMode').textContent=u?'API configurée':'Prototype local';
+}
+(function(){const u=localStorage.getItem('bs_api_url')||'';if($('apiUrl'))$('apiUrl').value=u;if($('cloudMode'))$('cloudMode').textContent=u?'API configurée':'Prototype local'})();
+
+const BS_CLOUD_CONTRACT={
+ auth:{POST:'/auth/signup',login:'/auth/login',logout:'/auth/logout'},
+ profile:{GET:'/me/profile',PUT:'/me/profile'},
+ program:{GET:'/me/program',PUT:'/me/program'},
+ nutrition:{GET:'/me/nutrition',PUT:'/me/nutrition'},
+ checkins:{GET:'/me/checkins',POST:'/me/checkins'},
+ coach:{GET:'/coach/athletes',POST:'/coach/athletes',GET_PROGRAM:'/coach/athletes/:id/program'}
+};
+</script></body></html>

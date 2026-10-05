@@ -1,0 +1,45 @@
+{
+  "users": {
+    "id": "uuid",
+    "email": "string",
+    "name": "string",
+    "role": "coach|athlete",
+    "created_at": "datetime"
+  },
+  "profiles": {
+    "user_id": "uuid",
+    "age": "integer",
+    "sex": "string",
+    "height_cm": "numeric",
+    "weight_kg": "numeric",
+    "waist_cm": "numeric",
+    "goal": "string",
+    "level": "string",
+    "equipment": "string"
+  },
+  "programs": {
+    "id": "uuid",
+    "user_id": "uuid",
+    "week": "integer",
+    "payload": "json",
+    "created_at": "datetime"
+  },
+  "nutrition": {
+    "user_id": "uuid",
+    "calories": "numeric",
+    "protein_g": "numeric",
+    "carbs_g": "numeric",
+    "fat_g": "numeric",
+    "preferences": "json"
+  },
+  "checkins": {
+    "id": "uuid",
+    "user_id": "uuid",
+    "weight_kg": "numeric",
+    "waist_cm": "numeric",
+    "energy": "integer",
+    "recovery": "integer",
+    "performance": "string",
+    "created_at": "datetime"
+  }
+}

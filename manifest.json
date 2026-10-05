@@ -1,0 +1,9 @@
+{
+  "name": "BE STRONGER",
+  "short_name": "BE STRONGER",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#0a0a0a",
+  "description": "BE STRONGER — Personal Coaching Intelligence"
+}
