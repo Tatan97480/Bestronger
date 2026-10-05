@@ -1,9 +1,17 @@
 {
-  "name": "BE STRONGER",
+  "name": "BE STRONGER — by jonagrame_coach",
   "short_name": "BE STRONGER",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#080808",
   "theme_color": "#0a0a0a",
-  "description": "BE STRONGER — Personal Coaching Intelligence"
+  "description": "Personal Coaching Intelligence",
+  "icons": [
+    {
+      "src": "./be-stronger-logo.png",
+      "sizes": "1230x1230",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
