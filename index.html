@@ -97,7 +97,7 @@ nav{position:fixed;bottom:0;overflow-x:auto;left:0;right:0;background:#0c0c0cf2;
 </div>
 </div>
 </section>
-<section id="home" class="screen active">
+<section id="home" class="screen">
 <div class="hero"><h1 id="welcome">Ton plan.<br>Ta progression.</h1><p>Un coaching personnalisé basé sur tes données.</p></div>
 <div class="card"><h2>Tableau de bord</h2><div class="grid">
 <div class="metric"><small>Poids</small><strong id="dashWeight">80 kg</strong></div><div class="metric"><small>IMC</small><strong id="dashBmi">24.7</strong></div><div class="metric"><small>Calories</small><strong id="dashCal">—</strong></div><div class="metric"><small>Protéines</small><strong id="dashProt">—</strong></div></div></div>
@@ -308,7 +308,23 @@ function applyOnboarding(){
  localStorage.setItem('bs_nutrition',JSON.stringify({meals:onboard.meals,budget:onboard.budget,food:onboard.food,likes:onboard.likes,avoid:onboard.avoid}));
 }
 
-let bsUser=localStorage.getItem('bs_user');if(bsUser){try{$('welcome').innerHTML='Salut '+JSON.parse(bsUser).name+' 👋<br><span style="color:var(--gold2)">On progresse.</span>'}catch(e){}}\nlet saved=localStorage.getItem('bs_profile');let obSaved=localStorage.getItem('bs_onboard');let bsUser=localStorage.getItem('bs_user');if(saved){try{let p=JSON.parse(saved);$('age').value=p.age;$('height').value=p.h;$('weight').value=p.w;$('days').value=p.days;$('goal').value=p.goal;generate()}catch(e){}}else if(!bsUser){show('splash')}else{show('onboarding')}
+let bsUser=localStorage.getItem('bs_user');
+if(bsUser){
+  try{$('welcome').innerHTML='Salut '+JSON.parse(bsUser).name+' 👋<br><span style="color:var(--gold2)">On progresse.</span>'}catch(e){}
+}
+let saved=localStorage.getItem('bs_profile');
+let obSaved=localStorage.getItem('bs_onboard');
+if(saved){
+  try{
+    let p=JSON.parse(saved);
+    $('age').value=p.age;$('height').value=p.h;$('weight').value=p.w;$('days').value=p.days;$('goal').value=p.goal;
+    generate();
+  }catch(e){show('splash')}
+}else if(!bsUser){
+  show('splash');
+}else{
+  show('onboarding');
+}
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
 function checkin(){
@@ -319,28 +335,23 @@ function checkin(){
  else advice='<b>🟡 Maintien.</b><br>Conserve le programme actuel et cherche surtout une meilleure qualité d’exécution avant d’augmenter la charge.';
  if(w && t) advice += `<br><br><span class="pill">${w.toFixed(1)} kg</span><span class="pill">${t.toFixed(1)} cm taille</span>`;
  const item={date:new Date().toLocaleDateString('fr-FR'),w,t,e,r,p,advice};
- let hist=JSON.parse(localStorage.getItem('bs_checkins')||'[]');hist.unshift(item);hist=hist.slice(0,8);localStorage.setItem('bs_checkins',JSON.stringify(hist));
- $('coachResult').innerHTML=advice;renderHistory();
-function renderFoodProfile(){
- const n=JSON.parse(localStorage.getItem('bs_nutrition')||'null');
- if(!n)return;
- $('foodProfile').innerHTML=`<span class="pill">${n.meals} repas/j</span><span class="pill">${n.budget}</span><span class="pill">${n.food}</span><br><br><b>Préférences :</b> ${n.likes||'Non renseignées'}<br><b>À éviter :</b> ${n.avoid||'Non renseigné'}`;
-}
-renderFoodProfile();
-
+ let hist=JSON.parse(localStorage.getItem('bs_checkins')||'[]');
+ hist.unshift(item);hist=hist.slice(0,8);
+ localStorage.setItem('bs_checkins',JSON.stringify(hist));
+ $('coachResult').innerHTML=advice;
+ renderHistory();
 }
 function renderHistory(){
  let hist=JSON.parse(localStorage.getItem('bs_checkins')||'[]');
  $('history').innerHTML=hist.length?hist.map(x=>`<div class="exercise"><b>${x.date} — ${x.w?x.w+' kg':'—'}</b><span>${x.e}/10 énergie · ${x.r}/10 récup.</span></div>`).join(''):'Aucune donnée enregistrée.';
 }
-renderHistory();
 function renderFoodProfile(){
  const n=JSON.parse(localStorage.getItem('bs_nutrition')||'null');
  if(!n)return;
- $('foodProfile').innerHTML=`<span class="pill">${n.meals} repas/j</span><span class="pill">${n.budget}</span><span class="pill">${n.food}</span><br><br><b>Préférences :</b> ${n.likes||'Non renseignées'}<br><b>À éviter :</b> ${n.avoid||'Non renseigné'}`;
+ $('foodProfile').innerHTML=`<span class="pill">${n.meals||3} repas/j</span><span class="pill">${n.budget||'Standard'}</span><span class="pill">${n.food||'Omnivore'}</span><br><br><b>Préférences :</b> ${n.likes||'Non renseignées'}<br><b>À éviter :</b> ${n.avoid||'Non renseigné'}`;
 }
+renderHistory();
 renderFoodProfile();
-
 
 function getAthletes(){try{return JSON.parse(localStorage.getItem('bs_athletes')||'[]')}catch(e){return[]}}
 function saveAthletes(a){localStorage.setItem('bs_athletes',JSON.stringify(a))}
@@ -354,7 +365,8 @@ function renderAthletes(){
  $('athletes').innerHTML=a.length?a.map(x=>`<div class="exercise"><div><b>${x.name}</b><br><span style="color:#777;font-size:12px">${x.goal} · ${x.status}</span></div><span>${x.created}</span></div>`).join(''):'<p class="note">Aucun athlète ajouté.</p>';
 }
 renderAthletes();
-function logout(){localStorage.removeItem('bs_user');show('splash')}\n
+function logout(){localStorage.removeItem('bs_user');show('splash')}
+
 const BS_DATA_MODEL={
  users:{id:'uuid',name:'string',email:'string',role:'athlete|coach'},
  profiles:{user_id:'uuid',age:'number',sex:'string',height_cm:'number',weight_kg:'number',waist_cm:'number',goal:'string',level:'string'},
